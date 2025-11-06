@@ -3,14 +3,38 @@ replicaCount: 1
 image:
   repository: piuschungath/circuit-breaker-controller
   pullPolicy: IfNotPresent
-  tag: "latest"
+  tag: "v3"
 
+imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
 serviceAccount:
   create: true
+  annotations: {}
   name: ""
+
+podAnnotations: {}
+
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 65532
+  fsGroup: 65532
+
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+    - ALL
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 65532
+
+service:
+  type: ClusterIP
+  port: 8080
+  metricsPort: 8080
+  healthPort: 8081
 
 resources:
   limits:
@@ -20,6 +44,24 @@ resources:
     cpu: 10m
     memory: 64Mi
 
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 3
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
+
+podDisruptionBudget:
+  enabled: false
+  minAvailable: 1
+
 nodeSelector: {}
+
 tolerations: []
+
 affinity: {}
+
+priorityClassName: ""
+
+leaderElection:
+  enabled: true
