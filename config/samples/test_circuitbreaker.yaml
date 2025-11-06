@@ -1,0 +1,12 @@
+apiVersion: circuitbreaker.io/v1
+kind: CircuitBreaker
+metadata:
+  name: test-circuit-breaker
+  namespace: default
+spec:
+  failureThreshold: 3
+  timeoutSeconds: 10
+  resetTimeout: 20
+status:
+  state: Closed
+  failureCount: 5
