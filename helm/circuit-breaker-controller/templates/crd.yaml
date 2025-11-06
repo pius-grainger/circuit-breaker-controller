@@ -15,15 +15,44 @@ spec:
           spec:
             type: object
             properties:
+              targetRef:
+                type: object
+                properties:
+                  apiVersion:
+                    type: string
+                  kind:
+                    type: string
+                  name:
+                    type: string
+                  namespace:
+                    type: string
+                required:
+                - apiVersion
+                - kind
+                - name
               failureThreshold:
                 type: integer
                 minimum: 1
+              successThreshold:
+                type: integer
+                minimum: 1
+                default: 1
               timeoutSeconds:
                 type: integer
                 minimum: 1
               resetTimeout:
                 type: integer
                 minimum: 1
+              strategy:
+                type: object
+                properties:
+                  mode:
+                    type: string
+                    enum: ["count", "rate"]
+                    default: "count"
+                  window:
+                    type: string
+                    default: "1m"
             required:
             - failureThreshold
             - timeoutSeconds

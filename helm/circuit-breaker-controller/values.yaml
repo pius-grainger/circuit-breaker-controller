@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  repository: circuit-breaker-controller
+  repository: piuschungath/circuit-breaker-controller
   pullPolicy: IfNotPresent
   tag: "latest"
 

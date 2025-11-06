@@ -1,0 +1,13 @@
+apiVersion: circuitbreaker.io/v1
+kind: CircuitBreaker
+metadata:
+  name: simple-test
+  namespace: default
+spec:
+  failureThreshold: 3
+  successThreshold: 2
+  timeoutSeconds: 10
+  resetTimeout: 20
+  strategy:
+    mode: count
+    window: 1m

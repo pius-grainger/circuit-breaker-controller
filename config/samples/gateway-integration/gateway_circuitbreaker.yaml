@@ -1,0 +1,18 @@
+apiVersion: circuitbreaker.io/v1
+kind: CircuitBreaker
+metadata:
+  name: checkout-circuit-breaker
+  namespace: default
+spec:
+  targetRef:
+    apiVersion: gateway.networking.k8s.io/v1
+    kind: HTTPRoute
+    name: checkout-route
+    namespace: web
+  failureThreshold: 5
+  successThreshold: 2
+  timeoutSeconds: 30
+  resetTimeout: 60
+  strategy:
+    mode: count
+    window: 1m

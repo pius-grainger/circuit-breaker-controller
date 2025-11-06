@@ -1,0 +1,13 @@
+apiVersion: circuitbreaker.io/v1
+kind: CircuitBreaker
+metadata:
+  name: example-circuit-breaker
+  namespace: default
+spec:
+  failureThreshold: 5
+  successThreshold: 2
+  timeoutSeconds: 30
+  resetTimeout: 60
+  strategy:
+    mode: count
+    window: 1m

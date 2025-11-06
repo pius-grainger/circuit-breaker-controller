@@ -27,9 +27,9 @@ A minimal Kubernetes controller that manages circuit breaker resources.
 
 ## Helm Installation
 
-1. **Build and Load Docker Image**:
+1. **Build Docker Image**:
    ```bash
-   make docker-load
+   make docker-build
    ```
 
 2. **Install with Helm**:
@@ -44,6 +44,7 @@ A minimal Kubernetes controller that manages circuit breaker resources.
 
 ## Configuration
 
+### Basic Circuit Breaker
 ```yaml
 apiVersion: circuitbreaker.io/v1
 kind: CircuitBreaker
@@ -51,8 +52,33 @@ metadata:
   name: my-circuit-breaker
 spec:
   failureThreshold: 5    # Failures before opening
+  successThreshold: 2    # Successes to close from half-open
   timeoutSeconds: 30     # Timeout for half-open state
   resetTimeout: 60       # Time before trying half-open
+  strategy:
+    mode: count          # "count" or "rate"
+    window: 1m           # Window for rate mode
+```
+
+### Gateway API Integration
+```yaml
+apiVersion: circuitbreaker.io/v1
+kind: CircuitBreaker
+metadata:
+  name: checkout-circuit-breaker
+spec:
+  targetRef:
+    apiVersion: gateway.networking.k8s.io/v1
+    kind: HTTPRoute
+    name: checkout-route
+    namespace: web
+  failureThreshold: 5
+  successThreshold: 2
+  timeoutSeconds: 30
+  resetTimeout: 60
+  strategy:
+    mode: count
+    window: 1m
 ```
 
 ## States

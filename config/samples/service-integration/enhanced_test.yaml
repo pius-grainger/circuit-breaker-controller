@@ -1,0 +1,18 @@
+apiVersion: circuitbreaker.io/v1
+kind: CircuitBreaker
+metadata:
+  name: enhanced-test
+  namespace: default
+spec:
+  targetRef:
+    apiVersion: v1
+    kind: Service
+    name: enhanced-service
+    namespace: default
+  failureThreshold: 3
+  successThreshold: 2
+  timeoutSeconds: 10
+  resetTimeout: 20
+  strategy:
+    mode: count
+    window: 1m

@@ -1,4 +1,7 @@
-IMG ?= circuit-breaker-controller:latest
+# Docker Hub configuration
+DOCKER_HUB_USER ?= your-dockerhub-username
+IMG ?= $(DOCKER_HUB_USER)/circuit-breaker-controller:latest
+LOCAL_IMG ?= circuit-breaker-controller:latest
 
 .PHONY: deps
 deps:
@@ -14,11 +17,23 @@ run: deps
 
 .PHONY: docker-build
 docker-build:
-	eval $$(minikube docker-env) && docker build -t ${IMG} .
+	eval $$(minikube docker-env) && docker build -t ${LOCAL_IMG} .
 
 .PHONY: docker-load
 docker-load: docker-build
-	minikube image load ${IMG}
+	minikube image load ${LOCAL_IMG}
+
+.PHONY: docker-build-hub
+docker-build-hub:
+	docker build -t ${IMG} .
+
+.PHONY: docker-push
+docker-push: docker-build-hub
+	docker push ${IMG}
+
+.PHONY: docker-login
+docker-login:
+	docker login
 
 .PHONY: install
 install:
