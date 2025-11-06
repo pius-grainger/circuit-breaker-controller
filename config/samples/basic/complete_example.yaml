@@ -1,0 +1,43 @@
+apiVersion: circuitbreaker.io/v1
+kind: CircuitBreaker
+metadata:
+  name: complete-example
+  namespace: default
+  annotations:
+    description: "Complete circuit breaker example with all fields"
+spec:
+  # Target resource (optional)
+  targetRef:
+    apiVersion: v1
+    kind: Service
+    name: my-service
+    namespace: default
+  
+  # Thresholds
+  failureThreshold: 5    # Failures before opening
+  successThreshold: 2    # Successes to close from half-open
+  
+  # Timeouts (seconds)
+  timeoutSeconds: 30     # Timeout for half-open state
+  resetTimeout: 60       # Time before trying half-open
+  
+  # Strategy configuration
+  strategy:
+    mode: count          # "count" or "rate"
+    window: 1m           # Window for rate mode
+
+# Status is managed by the controller
+status:
+  state: Closed                    # Current state: Closed/Open/HalfOpen
+  failureCount: 0                  # Current failure count
+  successCount: 0                  # Current success count (in Half-Open)
+  lastTransitionTime: "2025-11-06T10:00:00Z"
+  reason: "Initialized"            # Reason for current state
+  message: "Circuit breaker initialized in closed state"
+  targetApplied: false             # Whether target configuration is applied
+  conditions:                      # Standard Kubernetes conditions
+  - type: "Ready"
+    status: "True"
+    lastTransitionTime: "2025-11-06T10:00:00Z"
+    reason: "CircuitBreakerReady"
+    message: "Circuit breaker is ready and operational"

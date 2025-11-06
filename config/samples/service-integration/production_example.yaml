@@ -1,0 +1,47 @@
+apiVersion: circuitbreaker.io/v1
+kind: CircuitBreaker
+metadata:
+  name: production-service-cb
+  namespace: production
+  labels:
+    app: payment-service
+    environment: production
+  annotations:
+    description: "Production circuit breaker for payment service"
+    owner: "platform-team"
+spec:
+  targetRef:
+    apiVersion: v1
+    kind: Service
+    name: payment-service
+    namespace: production
+  
+  # Production-ready thresholds
+  failureThreshold: 10     # Higher threshold for production
+  successThreshold: 3      # More successes required to close
+  timeoutSeconds: 45       # Longer timeout for complex operations
+  resetTimeout: 120        # 2 minutes before retry
+  
+  # Rate-based strategy for high-traffic services
+  strategy:
+    mode: rate
+    window: 5m             # 5-minute window for rate calculation
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: payment-service
+  namespace: production
+  labels:
+    app: payment-service
+spec:
+  selector:
+    app: payment-service
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8080
+  - name: grpc
+    port: 9090
+    targetPort: 9090
+  type: ClusterIP

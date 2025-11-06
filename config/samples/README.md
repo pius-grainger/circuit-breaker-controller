@@ -8,17 +8,20 @@ This directory contains example configurations for the Circuit Breaker Kubernete
 Basic circuit breaker configurations without target integration.
 - `sample_circuitbreaker.yaml` - Simple circuit breaker example
 - `simple_test.yaml` - Basic test configuration
+- `complete_example.yaml` - Complete example with all fields and status
 
 ### 📁 `service-integration/`
 Circuit breaker configurations with Kubernetes Service integration.
 - `enhanced_test.yaml` - Enhanced circuit breaker with Service target
 - `enhanced-service.yaml` - Sample Service and Deployment for testing
 - `service_test.yaml` - Service integration test configuration
+- `production_example.yaml` - Production-ready configuration with rate strategy
 
 ### 📁 `gateway-integration/`
 Circuit breaker configurations with Gateway API integration.
 - `gateway_circuitbreaker.yaml` - Circuit breaker with HTTPRoute target
 - `test_httproute.yaml` - Sample HTTPRoute for Gateway API testing
+- `advanced_gateway.yaml` - Advanced API gateway configuration with rate strategy
 
 ## Quick Start
 
@@ -50,6 +53,9 @@ spec:
   successThreshold: 2
   timeoutSeconds: 30
   resetTimeout: 60
+  strategy:
+    mode: count
+    window: 1m
 ```
 
 ### Service Integration
@@ -68,6 +74,9 @@ spec:
   successThreshold: 2
   timeoutSeconds: 10
   resetTimeout: 20
+  strategy:
+    mode: count
+    window: 1m
 ```
 
 ### Gateway API Integration
@@ -86,4 +95,7 @@ spec:
   successThreshold: 2
   timeoutSeconds: 30
   resetTimeout: 60
+  strategy:
+    mode: rate
+    window: 5m
 ```

@@ -13,11 +13,11 @@ import (
 
 func (r *CircuitBreakerReconciler) applyTargetConfig(ctx context.Context, cb *circuitbreakerv1.CircuitBreaker, previousState circuitbreakerv1.CircuitBreakerState) error {
 	log := log.FromContext(ctx)
-	log.Info("🎯 TARGET CONFIG: Starting target configuration", "target", cb.Spec.TargetRef.Kind+"/"+cb.Spec.TargetRef.Name, "state", cb.Status.State)
+	log.V(1).Info("Configuring target", "target", cb.Spec.TargetRef.Kind+"/"+cb.Spec.TargetRef.Name, "state", cb.Status.State)
 	
 	// Skip if no target reference
 	if cb.Spec.TargetRef.APIVersion == "" {
-		log.Info("⚠️ TARGET CONFIG: No target reference specified, skipping")
+		log.V(1).Info("No target reference, skipping config")
 		return nil
 	}
 	
@@ -31,7 +31,7 @@ func (r *CircuitBreakerReconciler) applyTargetConfig(ctx context.Context, cb *ci
 		targetNamespace = cb.Namespace
 	}
 	
-	log.Info("🔍 TARGET CONFIG: Fetching target resource", "name", cb.Spec.TargetRef.Name, "namespace", targetNamespace, "kind", cb.Spec.TargetRef.Kind)
+	log.V(2).Info("Fetching target resource", "name", cb.Spec.TargetRef.Name, "namespace", targetNamespace, "kind", cb.Spec.TargetRef.Kind)
 	err := r.Get(ctx, types.NamespacedName{
 		Name:      cb.Spec.TargetRef.Name,
 		Namespace: targetNamespace,
@@ -40,7 +40,7 @@ func (r *CircuitBreakerReconciler) applyTargetConfig(ctx context.Context, cb *ci
 		log.Error(err, "❌ TARGET CONFIG: Failed to get target resource", "name", cb.Spec.TargetRef.Name, "namespace", targetNamespace)
 		return fmt.Errorf("failed to get target resource: %w", err)
 	}
-	log.Info("✅ TARGET CONFIG: Successfully fetched target resource")
+	log.V(2).Info("Target resource fetched")
 
 	// Apply configuration based on circuit breaker state
 	switch cb.Status.State {
@@ -68,7 +68,7 @@ func (r *CircuitBreakerReconciler) applyOpenConfig(ctx context.Context, target *
 		annotations["circuitbreaker.io/managed-by"] = cb.Name
 		
 		target.SetAnnotations(annotations)
-		log.Info("Applied open circuit breaker config to Service", "target", target.GetName())
+		log.V(1).Info("Applied open config to Service", "target", target.GetName())
 	} else if target.GetKind() == "HTTPRoute" && target.GetAPIVersion() == "gateway.networking.k8s.io/v1" {
 		annotations := target.GetAnnotations()
 		if annotations == nil {
@@ -143,7 +143,7 @@ func (r *CircuitBreakerReconciler) applyClosedConfig(ctx context.Context, target
 		delete(annotations, "circuitbreaker.io/managed-by")
 		
 		target.SetAnnotations(annotations)
-		log.Info("Applied closed circuit breaker config to Service", "target", target.GetName())
+		log.V(1).Info("Applied closed config to Service", "target", target.GetName())
 	} else if target.GetKind() == "HTTPRoute" && target.GetAPIVersion() == "gateway.networking.k8s.io/v1" {
 		annotations := target.GetAnnotations()
 		if annotations == nil {

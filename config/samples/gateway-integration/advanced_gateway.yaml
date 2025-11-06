@@ -1,0 +1,52 @@
+apiVersion: circuitbreaker.io/v1
+kind: CircuitBreaker
+metadata:
+  name: api-gateway-cb
+  namespace: gateway-system
+  labels:
+    component: api-gateway
+    tier: edge
+spec:
+  targetRef:
+    apiVersion: gateway.networking.k8s.io/v1
+    kind: HTTPRoute
+    name: api-routes
+    namespace: gateway-system
+  
+  # Edge service configuration
+  failureThreshold: 15     # Higher threshold for edge services
+  successThreshold: 5      # More conservative recovery
+  timeoutSeconds: 60       # Longer timeout for downstream services
+  resetTimeout: 300        # 5 minutes before retry
+  
+  # Rate-based strategy for API gateway
+  strategy:
+    mode: rate
+    window: 10m            # 10-minute window for API rate tracking
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: api-routes
+  namespace: gateway-system
+spec:
+  parentRefs:
+  - name: api-gateway
+    namespace: gateway-system
+  hostnames:
+  - "api.example.com"
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /v1/
+    backendRefs:
+    - name: api-service
+      port: 80
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /v2/
+    backendRefs:
+    - name: api-service-v2
+      port: 80

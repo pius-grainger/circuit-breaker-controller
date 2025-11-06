@@ -58,6 +58,14 @@ spec:
   strategy:
     mode: count          # "count" or "rate"
     window: 1m           # Window for rate mode
+status:
+  state: Closed          # Current state: Closed/Open/HalfOpen
+  failureCount: 0        # Current failure count
+  successCount: 0        # Current success count
+  lastTransitionTime: "2025-11-06T10:00:00Z"
+  reason: "Initialized"  # Reason for current state
+  message: "Circuit breaker initialized in closed state"
+  targetApplied: false   # Whether target configuration is applied
 ```
 
 ### Gateway API Integration
@@ -84,5 +92,34 @@ spec:
 ## States
 
 - **Closed**: Normal operation, counting failures
-- **Open**: Blocking requests, waiting for reset timeout
+- **Open**: Blocking requests, waiting for reset timeout  
 - **Half-Open**: Testing if service recovered
+
+## Observability
+
+### Status Fields
+- `state`: Current circuit breaker state
+- `failureCount`: Number of consecutive failures
+- `successCount`: Number of consecutive successes (in Half-Open)
+- `lastTransitionTime`: When the state last changed
+- `reason`: Why the state changed
+- `message`: Human-readable state description
+- `targetApplied`: Whether target resource configuration is active
+
+### Events
+The controller emits Kubernetes Events for state transitions:
+- `CircuitBreakerOpened`: When failures exceed threshold
+- `CircuitBreakerHalfOpened`: When reset timeout elapses
+- `CircuitBreakerClosed`: When successes meet threshold
+
+### Monitoring
+```bash
+# Watch circuit breaker status
+kubectl get circuitbreaker my-circuit-breaker -w
+
+# View events
+kubectl get events --field-selector involvedObject.name=my-circuit-breaker
+
+# Check detailed status
+kubectl describe circuitbreaker my-circuit-breaker
+```

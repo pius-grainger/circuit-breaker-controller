@@ -92,6 +92,10 @@ func (in *CircuitBreakerStatus) DeepCopyInto(out *CircuitBreakerStatus) {
 		in, out := &in.LastSuccess, &out.LastSuccess
 		*out = (*in).DeepCopy()
 	}
+	if in.LastTransitionTime != nil {
+		in, out := &in.LastTransitionTime, &out.LastTransitionTime
+		*out = (*in).DeepCopy()
+	}
 	if in.Conditions != nil {
 		in, out := &in.Conditions, &out.Conditions
 		*out = make([]metav1.Condition, len(*in))

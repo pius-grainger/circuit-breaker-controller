@@ -34,13 +34,16 @@ type CircuitBreakerSpec struct {
 }
 
 type CircuitBreakerStatus struct {
-	State          CircuitBreakerState `json:"state"`
-	FailureCount   int32               `json:"failureCount"`
-	SuccessCount   int32               `json:"successCount"`
-	LastFailure    *metav1.Time        `json:"lastFailure,omitempty"`
-	LastSuccess    *metav1.Time        `json:"lastSuccess,omitempty"`
-	TargetApplied  bool                `json:"targetApplied"`
-	Conditions     []metav1.Condition  `json:"conditions,omitempty"`
+	State              CircuitBreakerState `json:"state"`
+	FailureCount       int32               `json:"failureCount"`
+	SuccessCount       int32               `json:"successCount"`
+	LastFailure        *metav1.Time        `json:"lastFailure,omitempty"`
+	LastSuccess        *metav1.Time        `json:"lastSuccess,omitempty"`
+	LastTransitionTime *metav1.Time        `json:"lastTransitionTime,omitempty"`
+	Reason             string              `json:"reason,omitempty"`
+	Message            string              `json:"message,omitempty"`
+	TargetApplied      bool                `json:"targetApplied"`
+	Conditions         []metav1.Condition  `json:"conditions,omitempty"`
 }
 
 // +kubebuilder:object:root=true
