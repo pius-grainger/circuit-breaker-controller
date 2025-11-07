@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Circuit Breaker Controller Helm Repository</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        code { background: #f4f4f4; padding: 2px 4px; border-radius: 3px; }
+        pre { background: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Circuit Breaker Controller Helm Repository</h1>
+        
+        <p>This is the Helm repository for the Circuit Breaker Kubernetes Controller.</p>
+        
+        <h2>Usage</h2>
+        <pre><code># Add the repository
+helm repo add circuit-breaker https://piuschungath.github.io/circuit-breaker
+helm repo update
+
+# Install the chart
+helm install circuit-breaker-controller circuit-breaker/circuit-breaker-controller
+
+# Or with custom values
+helm install circuit-breaker-controller circuit-breaker/circuit-breaker-controller \
+  --set autoscaling.enabled=true \
+  --set podDisruptionBudget.enabled=true</code></pre>
+        
+        <h2>Available Charts</h2>
+        <ul>
+            <li><a href="circuit-breaker-controller-3.0.0.tgz">circuit-breaker-controller-3.0.0.tgz</a></li>
+        </ul>
+        
+        <h2>Repository Index</h2>
+        <p><a href="index.yaml">index.yaml</a></p>
+        
+        <h2>Documentation</h2>
+        <p>For more information, visit the <a href="https://github.com/piuschungath/circuit-breaker">GitHub repository</a>.</p>
+    </div>
+</body>
+</html>
