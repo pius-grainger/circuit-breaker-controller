@@ -2,7 +2,7 @@ apiVersion: v2
 name: circuit-breaker-controller
 description: A production-ready Kubernetes controller for managing circuit breaker resources with target integration
 type: application
-version: 3.0.0
+version: 3.0.1
 appVersion: "v3"
 home: https://github.com/piuschungath/circuit-breaker
 sources:
