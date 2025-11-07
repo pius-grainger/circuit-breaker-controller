@@ -1,0 +1,29 @@
+apiVersion: v1
+entries:
+  circuit-breaker-controller:
+  - annotations:
+      category: Infrastructure
+    apiVersion: v2
+    appVersion: v3
+    created: "2025-11-07T12:41:24.458181Z"
+    description: A production-ready Kubernetes controller for managing circuit breaker
+      resources with target integration
+    digest: 5f6072b49f1273ea3ea075f13aef9bd4980dc23a6b979f9211c96b01fb2222fb
+    home: https://github.com/piuschungath/circuit-breaker
+    keywords:
+    - circuit-breaker
+    - resilience
+    - fault-tolerance
+    - microservices
+    - reliability
+    maintainers:
+    - email: pius.chungath@example.com
+      name: Pius Chungath
+    name: circuit-breaker-controller
+    sources:
+    - https://github.com/piuschungath/circuit-breaker
+    type: application
+    urls:
+    - https://piuschungath.github.io/circuit-breaker/circuit-breaker-controller-3.0.0.tgz
+    version: 3.0.0
+generated: "2025-11-07T12:41:24.457514Z"
