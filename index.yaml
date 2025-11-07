@@ -5,7 +5,32 @@ entries:
       category: Infrastructure
     apiVersion: v2
     appVersion: v3
-    created: "2025-11-07T12:55:44.690364Z"
+    created: "2025-11-07T13:04:19.956454Z"
+    description: A production-ready Kubernetes controller for managing circuit breaker
+      resources with target integration
+    digest: 5dd252f98b6b2ded15e055349cecacb142b6edcdb6ca8a0cbadbf8f193c8cccd
+    home: https://github.com/piuschungath/circuit-breaker
+    keywords:
+    - circuit-breaker
+    - resilience
+    - fault-tolerance
+    - microservices
+    - reliability
+    maintainers:
+    - email: pius.chungath@example.com
+      name: Pius Chungath
+    name: circuit-breaker-controller
+    sources:
+    - https://github.com/piuschungath/circuit-breaker
+    type: application
+    urls:
+    - https://pius-grainger.github.io/circuit-breaker-controller/circuit-breaker-controller-3.0.1.tgz
+    version: 3.0.1
+  - annotations:
+      category: Infrastructure
+    apiVersion: v2
+    appVersion: v3
+    created: "2025-11-07T13:04:19.956196Z"
     description: A production-ready Kubernetes controller for managing circuit breaker
       resources with target integration
     digest: 5f6072b49f1273ea3ea075f13aef9bd4980dc23a6b979f9211c96b01fb2222fb
@@ -30,7 +55,7 @@ entries:
       category: Infrastructure
     apiVersion: v2
     appVersion: v3
-    created: "2025-11-07T12:55:44.690775Z"
+    created: "2025-11-07T13:04:19.956724Z"
     description: A production-ready Kubernetes controller for managing circuit breaker
       resources with target integration
     digest: 5f6072b49f1273ea3ea075f13aef9bd4980dc23a6b979f9211c96b01fb2222fb
@@ -51,4 +76,4 @@ entries:
     urls:
     - https://pius-grainger.github.io/circuit-breaker-controller/charts/circuit-breaker-controller-3.0.0.tgz
     version: 3.0.0
-generated: "2025-11-07T12:55:44.689427Z"
+generated: "2025-11-07T13:04:19.955429Z"

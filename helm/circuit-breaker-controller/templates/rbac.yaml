@@ -1,0 +1,36 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "circuit-breaker-controller.fullname" . }}
+rules:
+- apiGroups: ["circuitbreaker.io"]
+  resources: ["circuitbreakers"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+- apiGroups: ["circuitbreaker.io"]
+  resources: ["circuitbreakers/status"]
+  verbs: ["get", "update", "patch"]
+- apiGroups: ["coordination.k8s.io"]
+  resources: ["leases"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+- apiGroups: [""]
+  resources: ["events"]
+  verbs: ["create", "patch"]
+- apiGroups: [""]
+  resources: ["services"]
+  verbs: ["get", "list", "watch", "update", "patch"]
+- apiGroups: ["gateway.networking.k8s.io"]
+  resources: ["httproutes"]
+  verbs: ["get", "list", "watch", "update", "patch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ include "circuit-breaker-controller.fullname" . }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: {{ include "circuit-breaker-controller.fullname" . }}
+subjects:
+- kind: ServiceAccount
+  name: {{ include "circuit-breaker-controller.serviceAccountName" . }}
+  namespace: {{ .Release.Namespace }}
