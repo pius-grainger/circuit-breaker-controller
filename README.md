@@ -213,19 +213,27 @@ The controller emits Kubernetes Events for state transitions:
 
 ### Monitoring Commands
 ```bash
-# Watch circuit breaker status
-kubectl get circuitbreaker my-circuit-breaker -w
+# View all circuit breakers with status overview
+kubectl get circuitbreakers
+# Output:
+# NAME       STATE      FAILURES   LASTTRANSITION         AGE
+# checkout   HalfOpen   3          2025-11-07T11:45:00Z   5m
+# payment    Closed     0                                 2h
+# gateway    Open       15         2025-11-07T11:40:00Z   1h
 
-# View all circuit breakers
+# View circuit breakers across all namespaces
 kubectl get circuitbreakers -A
 
-# View events
+# Watch circuit breaker status changes
+kubectl get circuitbreaker my-circuit-breaker -w
+
+# View events for state transitions
 kubectl get events --field-selector involvedObject.name=my-circuit-breaker
 
-# Check detailed status
+# Check detailed status and configuration
 kubectl describe circuitbreaker my-circuit-breaker
 
-# Watch controller logs
+# Watch controller logs for debugging
 kubectl logs -l app.kubernetes.io/name=circuit-breaker-controller -f
 ```
 
