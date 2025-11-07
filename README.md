@@ -51,7 +51,7 @@ helm upgrade circuit-breaker-controller circuit-breaker/circuit-breaker-controll
 ### Using Local Chart
 ```bash
 # Clone the repository
-git clone https://github.com/piuschungath/circuit-breaker.git
+git clone https://github.com/pius-grainger/circuit-breaker-controller.git
 cd circuit-breaker
 
 # Install with production-ready configuration
