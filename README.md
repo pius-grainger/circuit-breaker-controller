@@ -30,8 +30,30 @@ A production-ready Kubernetes controller that manages circuit breaker resources 
 
 ## Helm Installation
 
-### Using DockerHub Image (Recommended)
+### Using Helm Repository (Recommended)
 ```bash
+# Add the circuit-breaker Helm repository
+helm repo add circuit-breaker https://pius-grainger.github.io/circuit-breaker-controller
+helm repo update
+
+# Install with production-ready configuration
+helm install circuit-breaker-controller circuit-breaker/circuit-breaker-controller
+
+# Or with custom values
+helm install circuit-breaker-controller circuit-breaker/circuit-breaker-controller \
+  --set autoscaling.enabled=true \
+  --set podDisruptionBudget.enabled=true
+
+# Upgrade to latest version
+helm upgrade circuit-breaker-controller circuit-breaker/circuit-breaker-controller
+```
+
+### Using Local Chart
+```bash
+# Clone the repository
+git clone https://github.com/piuschungath/circuit-breaker.git
+cd circuit-breaker
+
 # Install with production-ready configuration
 helm install circuit-breaker-controller ./helm/circuit-breaker-controller
 
